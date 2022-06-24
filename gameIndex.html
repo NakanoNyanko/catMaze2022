@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+
+    </header>
+    <div id="contents">
+        <div id="main">
+
+        </div>
+    </div>
+
+    <footer>
+
+    </footer>
+    <script>
+    let kazu = 200;
+    const blockWidth = "64px";
+    const blockHeight = "96px";
+    const hero = document.createElement('img');
+    let heroPosition = 0;
+    let targetAngle = 0;
+    hero.src = "images/Tux.svg.png";
+    hero.style.width = blockWidth; hero.style.height = blockHeight;
+    let blockDiv;
+    let mainDiv = document.querySelector('#main');
+    mainDiv.style.display = "grid";
+    let gridHorizontal = ""; for (i = 0; i < kazu/10; i++){ gridHorizontal += "68px ";}
+    console.log(gridHorizontal);
+    mainDiv.style.gridTemplateColumns = gridHorizontal;
+    let blockMap = new Array(kazu);
+    for (i = 0; i < kazu; i++){
+        blockDiv = document.createElement('div')
+        console.log(i);
+        blockMap[i] = blockDiv;
+        blockMap[i].style.width = blockWidth;
+        blockMap[i].style.height = blockHeight;
+        blockMap[i].style.background = "lightgray";
+        if (i != 0 && Math.random() > 0.6) {
+            blockMap[i].style.background = "gray";
+        }
+        if (i != 0 && Math.random() > 0.92) {
+            blockMap[i].style.background = "black";
+        }
+        mainDiv.append(blockMap[i]);
+    }
+    // check
+    for (i = 0; i < kazu; i++){
+
+    }
+
+    blockMap[heroPosition].append(hero);
+
+
+
+    document.addEventListener('keydown', keyEve);
+
+    function keyEve(e){
+        let moving = 0;
+        switch (e.key) {
+		case 'ArrowUp':
+			moving = heroPosition - 20 >= 0 ? -20 : 0;
+			break;
+		case 'ArrowDown':
+            moving = heroPosition + 20 < kazu ? 20 : 0;
+			break;
+		case 'ArrowLeft':
+            moving = heroPosition - 1 >= 0 ? -1 : 0;
+            if (moving != 0 && heroPosition % 20 == 0 ){moving = 0}		
+			break;
+		case 'ArrowRight':
+            hero.style.transform = "scale(-1, 1)";
+            moving = heroPosition + 1 < kazu ? 1 : 0;
+            if (moving != 0 && heroPosition % 20 == 19){moving = 0}
+			break;
+        }
+        if (moving == 1){hero.style.transform = "scale(-1, 1)";}else if (moving == -1){hero.style.transform = "scale(1, 1)";}
+        if (blockMap[heroPosition + moving].style.background != "black" && blockMap[heroPosition + moving].style.background != "gray"){
+            heroPosition += moving;
+            blockMap[heroPosition].append(hero);
+        }
+        targetAngle = heroPosition + moving;
+    }
+    </script>
+</body>
+</html>
